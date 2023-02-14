@@ -2,4 +2,6 @@
     <string name="app_name">Chapter01</string>
     <string name="welcome">Welcome. What is your name</string>
     <string name="hello">Hello, %1$s. \nNice to meet you.</string>
+    <string name="hint">Your name</string>
+    <string name="done">Done</string>
 </resources>
