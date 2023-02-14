@@ -9,6 +9,8 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.syoon.compose.chapter01.ui.theme.Chapter01Theme
 
@@ -31,7 +33,19 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+    Text(
+        text = stringResource(R.string.hello, name),
+        textAlign = TextAlign.Center,
+        style = MaterialTheme.typography.subtitle1
+    )
+}
+
+@Composable
+fun Welcome() {
+    Text(
+        text = stringResource(R.string.welcome),
+        style = MaterialTheme.typography.subtitle1
+    )
 }
 
 @Preview(showBackground = true)
