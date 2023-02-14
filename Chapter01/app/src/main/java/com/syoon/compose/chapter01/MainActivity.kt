@@ -49,7 +49,8 @@ fun Greeting(name: String) {
 @Preview(
     widthDp = 100,
     heightDp = 100,
-    showSystemUi = true
+    showSystemUi = true,
+    group = "my-group-1"
 )
 @Composable
 fun Welcome() {
@@ -96,6 +97,7 @@ fun TextAndButton(name: MutableState<String>, nameEntered: MutableState<Boolean>
 }
 
 // 인사말 출력
+@Preview(group = "my-group-1")
 @Composable
 fun Hello() {
     /*상태 생성 및 관리
