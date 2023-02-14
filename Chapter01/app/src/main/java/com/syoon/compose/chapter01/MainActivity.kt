@@ -46,6 +46,11 @@ fun Greeting(name: String) {
     )
 }
 
+@Preview(
+    widthDp = 100,
+    heightDp = 100,
+    showSystemUi = true
+)
 @Composable
 fun Welcome() {
     Text(
@@ -120,7 +125,7 @@ fun Hello() {
     }
 }
 
-
+// 미리보기
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
