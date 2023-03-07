@@ -1,11 +1,16 @@
 package com.syoon.compose.chapter06.ui.viewmodels
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -54,4 +59,34 @@ fun UnitConverterTheme(
         shapes = Shapes(small = CutCornerShape(8.dp)),
         content = content,
     )
+}
+
+// 테마 중첩 예제
+@Composable
+@Preview
+fun MaterialThemeDemo() {
+    MaterialTheme(
+        typography = Typography(
+            h1 = TextStyle(color = Color.Red)
+        ),
+    ) {
+        Row {
+            Text(
+                text = "Hello",
+                style = MaterialTheme.typography.h1,
+            )
+            Spacer(modifier = Modifier.width(2.dp))
+            // 중첩 테마 적용
+            MaterialTheme(
+                typography = Typography(
+                    h1 = TextStyle(color = Color.Blue) // 부모의 테마 재정의
+                )
+            ) {
+                Text(
+                    text = "Compose",
+                    style = MaterialTheme.typography.h1,
+                )
+            }
+        }
+    }
 }
