@@ -9,10 +9,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.syoon.compose.chapter06.R
 
 // Color
 val AndroidGreen = Color(0xFF3DDC84)
@@ -32,19 +34,22 @@ private val DarkColorPalette = darkColors(
 private val LightColorPalette = lightColors(
     primary = AndroidGreen,
     primaryVariant = AndroidGreenDark,
-    secondary = Orange,
+    //secondary = Orange,
     secondaryVariant = OrangeDark,
 )
 
 @Composable
-fun UnitConverterTheme(
+fun ComposeUnitConverterTheme(
     darkTheme: Boolean = isSystemInDarkTheme(), // darkTheme 사용 감지
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
-        LightColorPalette
+        // 명시한 변수에서 color를 가져올 경우
+        //LightColorPalette.copy(secondary = AndroidGreenDark)
+        // 리소스에서 color를 가져올 경우
+        LightColorPalette.copy(secondary = colorResource(id = R.color.orange_dark))
     }
     /**
      * 머터리얼 테마의 메인 진입점
