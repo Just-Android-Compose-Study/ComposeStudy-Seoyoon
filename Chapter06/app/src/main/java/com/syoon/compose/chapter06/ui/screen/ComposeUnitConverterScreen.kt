@@ -4,8 +4,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.syoon.compose.chapter06.R
 
+// sead class로 정의
 sealed class ComposeUnitConverterScreen(
-    val route: String,
+    val route: String, // 화면을 식별하는 고유값
     @StringRes val label: Int,
     @DrawableRes val icon: Int
 ) {
@@ -15,6 +16,7 @@ sealed class ComposeUnitConverterScreen(
             Distances
         )
 
+        // 두 개의 화면으로 이루어짐
         const val route_temperature = "temperature"
         const val route_distances = "distances"
     }
