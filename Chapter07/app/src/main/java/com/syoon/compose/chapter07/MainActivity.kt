@@ -1,4 +1,6 @@
 package com.syoon.compose.chapter07
+
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -14,8 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@SuppressLint("CoroutineCreationDuringComposition") // **** Composable 함수의 lifecycle과 직접적으로 연결되어 있지 않음을 의미
 @Composable
 fun LaunchedEffectDemo() {
     /**
@@ -35,14 +37,18 @@ fun LaunchedEffectDemo() {
     var clickCount by rememberSaveable { mutableStateOf(0) }
     var counter by remember { mutableStateOf(0) }
 
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Log.d("clickCount", "$clickCount") // 호출되는 순서 확인
+        //Log.d("clickCount", "$clickCount") // 호출되는 순서 확인
         Row {
+            Log.d("###", "Row Composable 재구성")
+            Log.d("###", "clickCount : $clickCount")
             Button(onClick = { clickCount += 1 }) {
                 Text(
                     text = if (clickCount == 0)
@@ -61,17 +67,27 @@ fun LaunchedEffectDemo() {
                     println("init: clickCount is $clickCount")
                     onDispose {
                         println("dispose: clickCount is $clickCount")
+                        scope.cancel()
                     }
                 }
+                Log.d("###", "counter: $counter")
 
-                LaunchedEffect(clickCount) {
-                    // 1. 비동기 작업을 수행하고
-                    counter = 0
-                    while (isActive) { // 현재 job이 active인지 아닌지 반환
-                        counter += 1 // 2. 상태가 변경된다
+                // **** rememberCoroutineScope로 코루틴스코프 객체 생성
+                scope.launch {
+                    //counter = 0
+                    while (isActive) {
+                        counter += 1
                         delay(1000)
                     }
                 }
+//                LaunchedEffect(clickCount) {
+//                    // 1. 비동기 작업을 수행하고
+//                    counter = 0
+//                    while (isActive) { // 현재 job이 active인지 아닌지 반환
+//                        counter += 1 // 2. 상태가 변경된다
+//                        delay(1000)
+//                    }
+//                }
             }
         }
         // 3. 상태에 따라 화면이 구성된다
