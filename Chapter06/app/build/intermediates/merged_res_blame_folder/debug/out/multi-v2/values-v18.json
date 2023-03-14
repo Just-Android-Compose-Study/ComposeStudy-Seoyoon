@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.syoon.compose.chapter06.app-mergeDebugResources-55:/values-v18/values-v18.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\USER\\.gradle\\caches\\transforms-3\\15d5ef2f72d97b31f52592c9123b2dff\\transformed\\appcompat-1.1.0\\res\\values-v18\\values-v18.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
+                    }
+                }
+            ]
+        }
+    ]
+}

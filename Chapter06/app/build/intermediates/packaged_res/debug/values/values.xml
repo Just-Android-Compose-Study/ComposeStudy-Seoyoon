@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="android_green_dark">#FF20B261</color>
+    <color name="black">#FF000000</color>
+    <color name="orange_dark">#FFCC8400</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">Chapter06</string>
+    <string name="celsius">°C</string>
+    <string name="convert">Convert</string>
+    <string name="distances">Distances</string>
+    <string name="fahrenheit">°F</string>
+    <string name="meter">m</string>
+    <string name="mile">mi</string>
+    <string name="placeholder">temperature</string>
+    <string name="placeholder_distance">distance</string>
+    <string name="temperature">Temperature</string>
+    <string name="template">%1$s %2$s</string>
+    <style name="Theme.Chapter06" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/android_green_dark</item>
+    </style>
+</resources>
