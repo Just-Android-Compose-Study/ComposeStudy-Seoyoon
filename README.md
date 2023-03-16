@@ -1,10 +1,9 @@
 # 젯팩 컴포즈로 개발하는 안드로이드 UI
-
-<img src="book_cover.png" width="50%" height="50%">
+![image](https://user-images.githubusercontent.com/110798031/225552362-c56f8f06-2971-41c1-a7e7-ec8e0c72f299.png)
 
 - Android Jetpack Compose UI에 좀더 익숙해지기 위해 선택한 교재
 - [교재 링크](https://product.kyobobook.co.kr/detail/S000200474747)
-- [예제 링크](https://github.com/PacktPublishing/Android-UI-Development-with-Jetpack-Compose)]
+- [예제 링크](https://github.com/PacktPublishing/Android-UI-Development-with-Jetpack-Compose)
 
 ### 목차
 - 01장. 컴포즈 앱 첫 빌드
