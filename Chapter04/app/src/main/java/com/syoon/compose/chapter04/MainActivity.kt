@@ -347,3 +347,34 @@ private fun randomColor() = when (randomInt123()) {
     else -> Color.Blue
 }
 
+/**
+ * Layout test
+ */
+@Composable
+fun TestLayout() {
+    Column(
+        modifier = Modifier
+            .background(Color.Blue)
+            .padding(30.dp)
+    ) {
+
+        Box(
+            modifier = Modifier
+                //.fillMaxSize(0.6f)
+                .background(Color.Black)
+        ) {
+
+        }
+
+    }
+}
+
+@Composable
+fun TestLayout2() {
+    Column(
+        modifier = Modifier
+            //.fillMaxSize()
+            .background(Color.Yellow)
+    ) {
+    }
+}
