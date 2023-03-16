@@ -31,7 +31,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            OrderDemo()
+            //OrderDemo()
+
+            Text(
+                text = "Hello Compose",
+                modifier = Modifier
+                    .fillMaxSize()
+                    .drawYellowCross(),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h1
+            )
 
 //            BoxWithConstraints(
 //                contentAlignment = Alignment.Center,
@@ -127,3 +136,35 @@ fun OrderDemo() {
 
     )
 }
+
+@Composable
+fun TextWithYellowBackground(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = text,
+        modifier = modifier.background(Color.Yellow)
+    )
+}
+
+// 커스텀 변경자
+fun Modifier.drawYellowCross() = then( // 두 변경자를 서로 연결
+    object : DrawModifier {
+        override fun ContentDrawScope.draw() {
+            drawLine(
+                color = Color.Yellow,
+                start = Offset(0F, 0F),
+                end = Offset(size.width - 1, size.height - 1),
+                strokeWidth = 10F
+            )
+            drawLine(
+                color = Color.Yellow,
+                start = Offset(0F, size.height - 1),
+                end = Offset(size.width - 1, 0F),
+                strokeWidth = 10F
+            )
+            drawContent()
+        }
+    }
+)
