@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Checkbox
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -17,6 +18,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -127,7 +129,6 @@ fun CheckboxWithLabel(label: String, state: MutableState<Boolean>) { //다른 �
 /**
  * Constraint 예제
  */
-
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 @Preview
@@ -142,69 +143,71 @@ fun ConstraintLayoutDemo() {
     ) {
         val (cbRed, cbGreen, cbBlue, boxRed, boxGreen, boxBlue) = createRefs()
 
-        CheckboxWithLabel(
-            label = stringResource(id = R.string.red),
-            state = red,
-            modifier = Modifier.constrainAs(cbRed) {
-                top.linkTo(parent.top)
-            }
-        )
-        CheckboxWithLabel(
-            label = stringResource(id = R.string.green),
-            state = green,
-            modifier = Modifier.constrainAs(cbGreen) {
-                top.linkTo(cbRed.bottom)
-            }
-        )
-        CheckboxWithLabel(
-            label = stringResource(id = R.string.blue),
-            state = blue,
-            modifier = Modifier.constrainAs(cbBlue) {
-                top.linkTo(cbGreen.bottom)
-            }
-        )
-        if (red.value) {
-            Box(
-                modifier = Modifier
-                    .background(Color.Red)
-                    .constrainAs(boxRed) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(cbBlue.bottom, margin = 16.dp)
-                        bottom.linkTo(parent.bottom)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.fillToConstraints
-                    }
-            )
-        }
-        if (green.value) {
-            Box(
-                modifier = Modifier
-                    .background(Color.Green)
-                    .constrainAs(boxGreen) {
-                        start.linkTo(parent.start, margin = 32.dp)
-                        end.linkTo(parent.end, margin = 32.dp)
-                        top.linkTo(cbBlue.bottom, margin = (16 + 32).dp)
-                        bottom.linkTo(parent.bottom, margin = 32.dp)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.fillToConstraints
-                    }
-            )
-        }
-        if (blue.value) {
-            Box(
-                modifier = Modifier
-                    .background(Color.Blue)
-                    .constrainAs(boxBlue) {
-                        start.linkTo(parent.start, margin = 64.dp)
-                        end.linkTo(parent.end, margin = 64.dp)
-                        top.linkTo(cbBlue.bottom, margin = (16 + 64).dp)
-                        bottom.linkTo(parent.bottom, margin = 64.dp)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.fillToConstraints
-                    }
-            )
-        }
+        ColumnWithText()
+
+//        CheckboxWithLabel(
+//            label = stringResource(id = R.string.red),
+//            state = red,
+//            modifier = Modifier.constrainAs(cbRed) {
+//                top.linkTo(parent.top)
+//            }
+//        )
+//        CheckboxWithLabel(
+//            label = stringResource(id = R.string.green),
+//            state = green,
+//            modifier = Modifier.constrainAs(cbGreen) {
+//                top.linkTo(cbRed.bottom)
+//            }
+//        )
+//        CheckboxWithLabel(
+//            label = stringResource(id = R.string.blue),
+//            state = blue,
+//            modifier = Modifier.constrainAs(cbBlue) {
+//                top.linkTo(cbGreen.bottom)
+//            }
+//        )
+//        if (red.value) {
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Red)
+//                    .constrainAs(boxRed) {
+//                        start.linkTo(parent.start)
+//                        end.linkTo(parent.end)
+//                        top.linkTo(cbBlue.bottom, margin = 16.dp)
+//                        bottom.linkTo(parent.bottom)
+//                        width = Dimension.fillToConstraints
+//                        height = Dimension.fillToConstraints
+//                    }
+//            )
+//        }
+//        if (green.value) {
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Green)
+//                    .constrainAs(boxGreen) {
+//                        start.linkTo(parent.start, margin = 32.dp)
+//                        end.linkTo(parent.end, margin = 32.dp)
+//                        top.linkTo(cbBlue.bottom, margin = (16 + 32).dp)
+//                        bottom.linkTo(parent.bottom, margin = 32.dp)
+//                        width = Dimension.fillToConstraints
+//                        height = Dimension.fillToConstraints
+//                    }
+//            )
+//        }
+//        if (blue.value) {
+//            Box(
+//                modifier = Modifier
+//                    .background(Color.Blue)
+//                    .constrainAs(boxBlue) {
+//                        start.linkTo(parent.start, margin = 64.dp)
+//                        end.linkTo(parent.end, margin = 64.dp)
+//                        top.linkTo(cbBlue.bottom, margin = (16 + 64).dp)
+//                        bottom.linkTo(parent.bottom, margin = 64.dp)
+//                        width = Dimension.fillToConstraints
+//                        height = Dimension.fillToConstraints
+//                    }
+//            )
+//        }
     }
 }
 
@@ -235,5 +238,22 @@ fun CheckboxWithLabel(
                 bottom.linkTo(checkbox.bottom)
             }
         )
+    }
+}
+
+@Preview
+@Composable
+fun ColumnWithText() {
+    Column { // 부모의 최대 너비는 텍스트 높이에 영향을 미친다 (가로, 세로모드 테스트)
+        Text(
+            text = "Android UI development with Jetpack Compose", // 길이가 긴 텍스트
+            style = MaterialTheme.typography.h3
+        )
+
+        Text(
+            text = "Hello Compose",
+            style = MaterialTheme.typography.h5.merge(TextStyle(color = Color.Red))
+        )
+
     }
 }
