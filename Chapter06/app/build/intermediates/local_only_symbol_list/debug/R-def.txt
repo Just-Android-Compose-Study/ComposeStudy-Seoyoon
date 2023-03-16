@@ -1,0 +1,31 @@
+R_DEF: Internal format may change without notice
+local
+color android_green_dark
+color black
+color orange_dark
+color purple_200
+color purple_500
+color purple_700
+color teal_200
+color teal_700
+color white
+drawable baseline_square_foot_24
+drawable baseline_thermostat_24
+drawable ic_launcher_background
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string celsius
+string convert
+string distances
+string fahrenheit
+string meter
+string mile
+string placeholder
+string placeholder_distance
+string temperature
+string template
+style Theme.Chapter06
+xml backup_rules
+xml data_extraction_rules
