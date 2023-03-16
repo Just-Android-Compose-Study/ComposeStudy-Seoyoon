@@ -1,9 +1,11 @@
 package com.syoon.compose.chapter04
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Checkbox
@@ -17,19 +19,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             //PredefinedLayoutsDemo()
-            ConstraintLayoutDemo()
+            //ConstraintLayoutDemo()
+            CustomLayoutDemo()
         }
     }
 }
@@ -257,3 +263,87 @@ fun ColumnWithText() {
 
     }
 }
+
+/**
+ * Custom 레이아웃 예제
+ */
+@Composable
+@Preview
+fun CustomLayoutDemo() {
+    SimpleFlexBox {
+        for (i in 0..42) {
+            ColoredBox()
+        }
+    }
+}
+
+@Composable
+fun ColoredBox() {
+    Box(
+        modifier = Modifier
+            .border(
+                width = 2.dp,
+                color = Color.Black //2dp의 검은색 테두리
+            )
+            .background(randomColor())
+            .width((40 * randomInt123()).dp)
+            .height((10 * randomInt123()).dp)
+    )
+}
+
+@Composable
+fun SimpleFlexBox(
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Layout(
+        modifier = modifier,
+        content = content,
+        measurePolicy = simpleFlexboxMeasurePolicy()
+    )
+}
+
+private fun simpleFlexboxMeasurePolicy(): MeasurePolicy =
+    MeasurePolicy { measurables, constraints -> // measurables은 측정할 element, constraint는 부모로부터 받은 min/max의 height/width의 범위
+        // measure로 사이즈를 측정하여 배치 가능한 사이즈 얻는다
+        val placeables = measurables.map { measurable ->
+            measurable.measure(constraints)
+        }
+        Log.d("즉정값", "$placeables")
+        layout( // MeasureScope에 포함된 layout() 함수
+            constraints.maxWidth,
+            constraints.maxHeight
+        ) {
+            var yPos = 0
+            var xPos = 0
+            var maxY = 0
+
+            // 위치 계산
+            placeables.forEach { placeable ->
+                if (xPos + placeable.width >
+                    constraints.maxWidth
+                ) {
+                    xPos = 0
+                    yPos += maxY
+                    maxY = 0
+                }
+                placeable.placeRelative(
+                    x = xPos,
+                    y = yPos
+                )
+                xPos += placeable.width
+                if (maxY < placeable.height) {
+                    maxY = placeable.height
+                }
+            }
+        }
+    }
+
+private fun randomInt123() = Random.nextInt(1, 4)
+
+private fun randomColor() = when (randomInt123()) {
+    1 -> Color.Red
+    2 -> Color.Green
+    else -> Color.Blue
+}
+
