@@ -1,8 +1,12 @@
 package com.syoon.compose.chapter08
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -21,7 +25,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Chapter08Theme {
-                StateChangeDemo()
+                //StateChangeDemo()
+                SingleValueAnimationDemo()
             }
         }
     }
@@ -36,6 +41,7 @@ fun StateChangeDemo() {
         Color.White
     else
         Color.Red
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,7 +52,44 @@ fun StateChangeDemo() {
             toggled = !toggled
         }) {
             Text(
-               stringResource(id = R.string.toggle) 
+                stringResource(id = R.string.toggle)
+            )
+        }
+        Box(
+            modifier = Modifier
+                .padding(top = 32.dp)
+                .background(color = color)
+                .size(128.dp)
+        )
+    }
+}
+
+@Composable
+fun SingleValueAnimationDemo() {
+    var toggled by remember {
+        mutableStateOf(false)
+    }
+    // State<Color> 인스턴스 반환
+    val color by animateColorAsState(
+        targetValue = if (toggled) // targetValue가 변경될 때마다 애니메이션 실행
+            Color.White
+        else
+            Color.Red,
+        animationSpec = spring(stiffness = Spring.StiffnessVeryLow), // 애니메이션 사양 조절
+        finishedListener = { color -> Log.d("color", "$color") } // 애니메이션 끝났을 떄 알림 리스너
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            toggled = !toggled
+        }) {
+            Text(
+                stringResource(id = R.string.toggle)
             )
         }
         Box(
@@ -62,6 +105,7 @@ fun StateChangeDemo() {
 @Composable
 fun DefaultPreview() {
     Chapter08Theme {
-        StateChangeDemo()
+        //StateChangeDemo()
+        SingleValueAnimationDemo()
     }
 }
