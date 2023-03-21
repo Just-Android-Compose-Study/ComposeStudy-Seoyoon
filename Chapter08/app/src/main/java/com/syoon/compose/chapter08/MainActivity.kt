@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +29,7 @@ class MainActivity : ComponentActivity() {
                 //StateChangeDemo()
                 //SingleValueAnimationDemo()
                 MultipleValuesAnimationDemo()
+                AnimatedVisibility()
             }
         }
     }
@@ -119,7 +120,10 @@ fun MultipleValuesAnimationDemo() {
     transition.segment // 초기상태와 현재 진행중인 트렌지션 대상 상태 포함
     transition.currentState // 트랜지션의 현재 상태
 
-    Log.d("transition", "${transition.isRunning}, ${transition.segment}, ${transition.currentState}")
+    Log.d(
+        "transition",
+        "${transition.isRunning}, ${transition.segment}, ${transition.currentState}"
+    )
 
     // 자식 애니메이션 animate...()
     val borderWidth by transition.animateDp(label = "borderWidthTrasition") { state ->
@@ -167,6 +171,46 @@ fun MultipleValuesAnimationDemo() {
     }
 }
 
+@Composable
+@Preview
+fun AnimatedVisibility() {
+    var visible by remember {
+        mutableStateOf(false)
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            visible = !visible
+        }) {
+            Text(
+                text = stringResource(
+                    id = if (visible)
+                        R.string.hide
+                    else
+                        R.string.show
+                )
+            )
+        }
+        // visible 매개변수가 변경되면 콘텐츠를 노출하거나 사라지가 하는 애니메이션 수행
+        AnimatedVisibility(
+            visible = visible,
+            // '+' 연산자 조합으로 Fade, Expand/Shrink, Slide 조합 가능 (순서 상관x)
+            enter = slideInHorizontally() + expandIn(),
+            exit = slideOutVertically() + fadeOut()
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(top = 32.dp)
+                    .background(color = Color.Red)
+                    .size(128.dp)
+            )
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -174,6 +218,7 @@ fun DefaultPreview() {
     Chapter08Theme {
         //StateChangeDemo()
         //SingleValueAnimationDemo()
-        MultipleValuesAnimationDemo()
+        //MultipleValuesAnimationDemo()
+        AnimatedVisibility()
     }
 }
