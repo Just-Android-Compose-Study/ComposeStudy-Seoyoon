@@ -26,11 +26,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             Chapter08Theme {
                 //StateChangeDemo()
-                //SingleValueAnimationDemo()
+                SingleValueAnimationDemo()
                 //MultipleValuesAnimationDemo()
                 //AnimatedVisibility()
                 //SizeChangedAnimationDemo()
-                CrossfadeAnimationDemo()
+                //CrossfadeAnimationDemo()
+                //InfiniteRepeatableDemo()
             }
         }
     }
@@ -79,7 +80,8 @@ fun SingleValueAnimationDemo() {
             Color.White
         else
             Color.Red,
-        animationSpec = spring(stiffness = Spring.StiffnessVeryLow), // 애니메이션 사양 조절
+        //animationSpec = spring(stiffness = Spring.StiffnessVeryLow), // 애니메이션 사양 조절
+        animationSpec = tween(durationMillis = 300, delayMillis = 500, easing = LinearEasing),
         finishedListener = { color -> Log.d("color", "$color") } // 애니메이션 끝났을 떄 알림 리스너
     )
 
@@ -236,11 +238,11 @@ fun SizeChangedAnimationDemo() {
         Text(
             text = stringResource(id = R.string.lines), // '#1\n#2\n#3\n#4\n#5'
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .background(Color.LightGray)
                 // Composable 함수 내부의 사이즈가 변경되거나 컨턴츠 변경이 될 경우
                 // 동적으로 사이즈 변화를 애니메이션으로 처리
-                .animateContentSize(animationSpec = snap(10000)),
+                .animateContentSize(animationSpec = snap(1000)),
             maxLines = size.toInt(), // 3. size 값을 maxLines로 사용
             color = Color.Blue
         )
@@ -300,16 +302,45 @@ fun Screen(
     }
 }
 
+@Composable
+fun InfiniteRepeatableDemo() {
+    val infiniteTransition = rememberInfiniteTransition() // 1. 무한 트랜지션 인스턴스
+    val degrees by infiniteTransition.animateFloat(
+        // 2. State<Float> 반환
+        initialValue = 0F, // 시작 값
+        targetValue = 359F,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes { // 시간대와 속성값 구현
+                durationMillis = 1500 // 회전 속도
+                0F at 0
+                359F at 1500
+            },
+            repeatMode = RepeatMode.Reverse // 최초 정의한 각도로 돌아옴
+        ),
+
+        )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(id = R.string.app_name),
+            modifier = Modifier.rotate(degrees = degrees), // 3. 변경자에서 사용
+        )
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     Chapter08Theme {
         //StateChangeDemo()
-        //SingleValueAnimationDemo()
+        SingleValueAnimationDemo()
         //MultipleValuesAnimationDemo()
         //AnimatedVisibility()
         //SizeChangedAnimationDemo()
-        CrossfadeAnimationDemo()
+        //CrossfadeAnimationDemo()
+        //InfiniteRepeatableDemo()
     }
 }
