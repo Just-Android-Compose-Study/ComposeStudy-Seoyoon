@@ -10,6 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,8 +29,9 @@ class MainActivity : ComponentActivity() {
             Chapter08Theme {
                 //StateChangeDemo()
                 //SingleValueAnimationDemo()
-                MultipleValuesAnimationDemo()
-                AnimatedVisibility()
+                //MultipleValuesAnimationDemo()
+                //AnimatedVisibility()
+                SizeChangedAnimationDemo()
             }
         }
     }
@@ -212,6 +214,41 @@ fun AnimatedVisibility() {
     }
 }
 
+@Composable
+fun SizeChangedAnimationDemo() {
+    var size by remember {
+        mutableStateOf(1F)
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        Slider(
+            value = size,
+            valueRange = (1F..4F),
+            steps = 3,
+            onValueChange = { // 1. 슬라이더 움직일 시 호출
+                size = it // 2. 전달받은 값을 size에 할당
+            },
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+
+        Text(
+            text = stringResource(id = R.string.lines), // '#1\n#2\n#3\n#4\n#5'
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.LightGray)
+                    // Composable 함수 내부의 사이즈가 변경되거나 컨턴츠 변경이 될 경우
+                    // 동적으로 사이즈 변화를 애니메이션으로 처리
+                .animateContentSize(animationSpec = snap(10000)),
+            maxLines = size.toInt(), // 3. size 값을 maxLines로 사용
+            color = Color.Blue
+        )
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
@@ -219,6 +256,7 @@ fun DefaultPreview() {
         //StateChangeDemo()
         //SingleValueAnimationDemo()
         //MultipleValuesAnimationDemo()
-        AnimatedVisibility()
+        //AnimatedVisibility()
+        SizeChangedAnimationDemo()
     }
 }
