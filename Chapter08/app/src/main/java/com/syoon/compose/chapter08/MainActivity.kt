@@ -9,9 +9,7 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,7 +29,8 @@ class MainActivity : ComponentActivity() {
                 //SingleValueAnimationDemo()
                 //MultipleValuesAnimationDemo()
                 //AnimatedVisibility()
-                SizeChangedAnimationDemo()
+                //SizeChangedAnimationDemo()
+                CrossfadeAnimationDemo()
             }
         }
     }
@@ -239,11 +238,64 @@ fun SizeChangedAnimationDemo() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.LightGray)
-                    // Composable 함수 내부의 사이즈가 변경되거나 컨턴츠 변경이 될 경우
-                    // 동적으로 사이즈 변화를 애니메이션으로 처리
+                // Composable 함수 내부의 사이즈가 변경되거나 컨턴츠 변경이 될 경우
+                // 동적으로 사이즈 변화를 애니메이션으로 처리
                 .animateContentSize(animationSpec = snap(10000)),
             maxLines = size.toInt(), // 3. size 값을 maxLines로 사용
             color = Color.Blue
+        )
+    }
+}
+
+// UI 일부를 전환할 때 사용
+@Composable
+fun CrossfadeAnimationDemo() {
+    var isFirstScreen by remember { mutableStateOf(true) }
+    Column(
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Switch(
+            checked = isFirstScreen,
+            onCheckedChange = {
+                isFirstScreen = !isFirstScreen
+            },
+            modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)
+        )
+        Crossfade(
+            targetState = isFirstScreen, // 값이 변경될 때마다 애니메이션 발생
+            animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
+        ) {
+            if (it) { // targetState(현재 boolean 값)에 따라 스크린 변경
+                Screen(
+                    text = stringResource(id = R.string.letter_w),
+                    backgroundColor = Color.Gray
+                )
+            } else {
+                Screen(
+                    text = stringResource(id = R.string.letter_i),
+                    backgroundColor = Color.LightGray
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun Screen(
+    text: String,
+    backgroundColor: Color = Color.White
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = backgroundColor),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h1
         )
     }
 }
@@ -257,6 +309,7 @@ fun DefaultPreview() {
         //SingleValueAnimationDemo()
         //MultipleValuesAnimationDemo()
         //AnimatedVisibility()
-        SizeChangedAnimationDemo()
+        //SizeChangedAnimationDemo()
+        CrossfadeAnimationDemo()
     }
 }
