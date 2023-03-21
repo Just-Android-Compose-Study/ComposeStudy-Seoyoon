@@ -26,11 +26,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             Chapter08Theme {
                 //StateChangeDemo()
-                SingleValueAnimationDemo()
+                //SingleValueAnimationDemo()
                 //MultipleValuesAnimationDemo()
                 //AnimatedVisibility()
                 //SizeChangedAnimationDemo()
-                //CrossfadeAnimationDemo()
+                CrossfadeAnimationDemo()
                 //InfiniteRepeatableDemo()
             }
         }
@@ -267,7 +267,13 @@ fun CrossfadeAnimationDemo() {
         )
         Crossfade(
             targetState = isFirstScreen, // 값이 변경될 때마다 애니메이션 발생
-            animationSpec = spring(stiffness = Spring.StiffnessVeryLow)
+            animationSpec = keyframes {
+                durationMillis = 8000
+                0f at 0
+                1f at 2000
+                0f at 4000
+                1f at 6000
+            }
         ) {
             if (it) { // targetState(현재 boolean 값)에 따라 스크린 변경
                 Screen(
@@ -336,11 +342,11 @@ fun InfiniteRepeatableDemo() {
 fun DefaultPreview() {
     Chapter08Theme {
         //StateChangeDemo()
-        SingleValueAnimationDemo()
+        //SingleValueAnimationDemo()
         //MultipleValuesAnimationDemo()
         //AnimatedVisibility()
         //SizeChangedAnimationDemo()
-        //CrossfadeAnimationDemo()
+        CrossfadeAnimationDemo()
         //InfiniteRepeatableDemo()
     }
 }
