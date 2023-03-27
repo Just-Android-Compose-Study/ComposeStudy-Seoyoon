@@ -63,4 +63,7 @@ dependencies {
 
     // ZXing Android Embedded
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
+
+    // LiveData
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
 }
